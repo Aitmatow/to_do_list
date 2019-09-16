@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block menu %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'task_add' %}">Создать задачу </a>
+        </li>
+{% endblock %}
+{% block content %}
+   <h1 class="bg-info text-white text-center">Список задач:</h1>
+            {% for article in articles %}
+                <div class="card mb-3 text-center">
+                  <div class="card-header bg-info text-white"> Наименование : '{{ article.description }}'</div>
+                  <div class="card-body">
+                    <p class="card-text">Статус:{{ article.get_status_display }}</p>
+                    <a href="{% url 'task_view' article.pk %}" class="btn btn-info">Открыть</a>
+                    <a href="{% url 'task_update' article.pk %}" class="btn btn-info">Редактировать</a>
+                    <a href="{% url 'task_delete' article.pk %}" class="btn btn-info">Удалить</a>
+                  </div>
+                </div>
+            {% endfor %}
+{% endblock %}
