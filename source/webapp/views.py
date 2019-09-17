@@ -4,13 +4,18 @@ from webapp.forms import TaskForm
 from webapp.models import Tasks
 from webapp.models import STATUS_CHOICES
 
-article_for_update = None
-
 def tasks_index_view(request, *args, **kwargs):
-    articles = Tasks.objects.all()
-    return render(request, 'index.html', context={
-        'articles' : articles
-    })
+    if request.method == 'GET':
+        articles = Tasks.objects.all()
+        return render(request, 'index.html', context={
+            'articles' : articles
+        })
+    elif request.method == 'POST':
+        selected_id = request.POST.getlist('selected_items')
+        selected_id = [int(i) for i in selected_id]
+        print(selected_id)
+        Tasks.objects.filter(id__in=request.POST.getlist('selected_items')).delete()
+        return redirect('index')
 
 
 def tasks_find_view(request, *args, pk):
@@ -22,7 +27,6 @@ def tasks_find_view(request, *args, pk):
 def tasks_delete_view(request, pk):
     task = get_object_or_404(Tasks, pk=pk)
     if request.method == 'GET':
-        print(task)
         return render(request, 'delete.html', context={'task': task})
     elif request.method == 'POST':
         task.delete()

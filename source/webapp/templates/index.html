@@ -3,12 +3,18 @@
         <li class="nav-item">
             <a class="nav-link" href="{% url 'task_add' %}">Создать задачу </a>
         </li>
+        <li class="nav-item pos">
+            <a href="{% url 'delete_selected' %}"> <input type="submit" class="btn btn-danger float-right" value="Удаление"></a>
+        </li>
 {% endblock %}
 {% block content %}
    <h1 class="bg-info text-white text-center">Список задач:</h1>
+    <form method="post" action="{% url 'delete_selected' %}">
+    {% csrf_token %}
             {% for article in articles %}
                 <div class="card mb-3 text-center">
                   <div class="card-header bg-info text-white"> Наименование : '{{ article.description }}'</div>
+                    <input type="checkbox" name="selected_items" value="{{ article.pk }}" class="action-select">
                   <div class="card-body">
                     <p class="card-text">Статус:{{ article.get_status_display }}</p>
                     <a href="{% url 'task_view' article.pk %}" class="btn btn-info">Открыть</a>
@@ -17,4 +23,6 @@
                   </div>
                 </div>
             {% endfor %}
+    <a href="{% url 'delete_selected' %}"> <input type="submit" class="btn btn-danger float-right" value="Удаление"></a>
+    </form>
 {% endblock %}

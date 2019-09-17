@@ -23,5 +23,6 @@ urlpatterns = [
     path('article/<int:pk>', views.tasks_find_view, name = 'task_view'),
     path('article/add/', views.tasks_add_view, name = 'task_add'),
     path('article/delete/<int:pk>', views.tasks_delete_view, name = 'task_delete'),
-    path('article/update/<int:pk>', views.tasks_update_view, name = 'task_update')
+    path('article/update/<int:pk>', views.tasks_update_view, name = 'task_update'),
+    path('delete_selected/', views.tasks_index_view, name = 'delete_selected')
 ]
