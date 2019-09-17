@@ -11,14 +11,10 @@ def tasks_index_view(request, *args, **kwargs):
             'articles' : articles
         })
     elif request.method == 'POST':
-        selected_id = request.POST.getlist('selected_items')
-        selected_id = [int(i) for i in selected_id]
-        print(selected_id)
         Tasks.objects.filter(id__in=request.POST.getlist('selected_items')).delete()
         return redirect('index')
 
-
-def tasks_find_view(request, *args, pk):
+def tasks_find_view(request, pk):
     article = get_object_or_404(Tasks, pk=pk)
     return render(request, 'article.html', context={
         'article': article
